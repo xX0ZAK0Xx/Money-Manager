@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/starterPage',
       routes: {
-        '/starterPage' : (context) => StarterPage(isLoggedIn: true,),
+        '/starterPage' : (context) => StarterPage(isLoggedIn: false,),
         '/bottombar' : (context) => BottomBar(),
         '/login' : (context) => Login(),
         '/signup' :(context) => SignUp(),
