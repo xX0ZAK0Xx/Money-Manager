@@ -38,7 +38,6 @@ dependencies:
   google_fonts: ^5.1.0
   animated_typing: ^0.2.1
   flutter_spinkit: ^5.2.0
-  wave: ^0.2.2
 
 dev_dependencies:
   flutter_test:

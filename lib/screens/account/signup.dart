@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_minder/styles.dart';
-import 'package:wave/config.dart';
-import 'package:wave/wave.dart';
+
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
