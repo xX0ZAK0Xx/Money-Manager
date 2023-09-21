@@ -40,6 +40,11 @@ class _HomePageState extends State<HomePage> {
         );
       });
     }
+    // void deleteTransaction(int index) {
+    //   setState(() {
+        
+    //   });
+    // }
     // Check if profileData is not null and is of the expected type
     if (profileData != null) {
       return Scaffold(
@@ -97,7 +102,8 @@ class _HomePageState extends State<HomePage> {
                           amount: transactionList[reversedIndex][3],
                           field: transactionList[reversedIndex][4],
                           currency: transactionList[reversedIndex][5],
-                          date: transactionList[reversedIndex][6],
+                          date: transactionList[reversedIndex][6], 
+                          deleteTransaction: (context) =>  transactionModel.removeTransaction(reversedIndex),
                         );
                       },
                       itemCount: transactionList.length,

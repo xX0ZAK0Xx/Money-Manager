@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:money_minder/styles.dart';
 
 class TransactionCard extends StatelessWidget {
-  TransactionCard({super.key, required this.icon, required this.account, required this.isExpense, required this.amount, required this.field, required this.currency, required this.date});
+  TransactionCard({super.key, required this.icon, required this.account, required this.isExpense, required this.amount, required this.field, required this.currency, required this.date, required this.deleteTransaction});
   final IconData icon;
    String field=" ";
    String account=" ";
@@ -11,57 +12,66 @@ class TransactionCard extends StatelessWidget {
    String amount="";
    String currency="";
    String date="";
+   Function(BuildContext)? deleteTransaction;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 15),
-      padding: EdgeInsets.all(15),
-      height: 120,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.bottomLeft,  // Define the gradient's start and end points
-          end: Alignment.topRight,
-          colors: [secondary, Color.fromARGB(255, 88, 88, 88)], // Define the colors for the gradient
-        ),
+    return Slidable(
+      endActionPane: ActionPane(motion: StretchMotion(), children: [SlidableAction(
+        onPressed: deleteTransaction,
+        icon: Icons.delete_outline_outlined,
+        backgroundColor: primary,
         borderRadius: BorderRadius.circular(15),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          //------------------Left Part-------------------
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CardHeader(icon: icon, text: field, isAccount: false),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: primary),
-                    child: Icon(isExpense? MdiIcons.arrowUp: MdiIcons.arrowDown)
-                  ),
-                  SizedBox(width: 20,),
-                  Text("${amount} ", style: TextStyle(color: primary, fontSize: 25),),
-                  Text("${currency}", style: TextStyle(color: primary, fontSize: 20),)
-                ],
-              )
-            ],
+      )]),
+      child: Container(
+        margin: EdgeInsets.only(bottom: 15),
+        padding: EdgeInsets.all(15),
+        height: 120,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomLeft,  // Define the gradient's start and end points
+            end: Alignment.topRight,
+            colors: [secondary, Color.fromARGB(255, 88, 88, 88)], // Define the colors for the gradient
           ),
-          //------------------Right Part-------------------
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CardHeader(icon: Icons.account_balance_wallet_outlined, text: account, isAccount: true),
-              Text(date, style: TextStyle(color: primary, fontSize: 20),)
-            ],
-          ),
-        ],
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            //------------------Left Part-------------------
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CardHeader(icon: icon, text: field, isAccount: false),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: primary),
+                      child: Icon(isExpense? MdiIcons.arrowUp: MdiIcons.arrowDown)
+                    ),
+                    SizedBox(width: 20,),
+                    Text("${amount} ", style: TextStyle(color: primary, fontSize: 25),),
+                    Text("${currency}", style: TextStyle(color: primary, fontSize: 20),)
+                  ],
+                )
+              ],
+            ),
+            //------------------Right Part-------------------
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CardHeader(icon: Icons.account_balance_wallet_outlined, text: account, isAccount: true),
+                Text(date, style: TextStyle(color: primary, fontSize: 20),)
+              ],
+            ),
+          ],
+        ),
+    
       ),
-
     );
   }
 }

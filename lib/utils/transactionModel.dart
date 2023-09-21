@@ -11,4 +11,8 @@ class TransactionModel extends ChangeNotifier {
     _transactionList.add(transaction);
     notifyListeners();
   }
+  void removeTransaction(int index ){
+    _transactionList.removeAt(index);
+    notifyListeners();
+  }
 }
