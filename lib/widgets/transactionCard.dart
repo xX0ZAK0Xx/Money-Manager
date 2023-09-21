@@ -3,13 +3,14 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:money_minder/styles.dart';
 
 class TransactionCard extends StatelessWidget {
-  const TransactionCard({super.key, required this.icon, required this.account, required this.isExpense, required this.amount, required this.field, required this.currency});
+  const TransactionCard({super.key, required this.icon, required this.account, required this.isExpense, required this.amount, required this.field, required this.currency, required this.date});
   final IconData icon;
   final String field;
   final String account;
   final bool isExpense;
   final String amount;
   final String currency;
+  final String date;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ class TransactionCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CardHeader(icon: Icons.account_balance_wallet_outlined, text: account, isAccount: true),
-              Text("17-09-23", style: TextStyle(color: primary, fontSize: 20),)
+              Text(date, style: TextStyle(color: primary, fontSize: 20),)
             ],
           ),
         ],
@@ -86,8 +87,11 @@ class CardHeader extends StatelessWidget {
           begin: Alignment.bottomLeft,  // Define the gradient's start and end points
           end: Alignment.topRight,
           colors: [accent, Color.fromARGB(255, 172, 255, 167)], // Define the colors for the gradient
-        ):null,
-        color: isAccount ? Colors.black:null,
+        ): LinearGradient(
+          begin: Alignment.bottomLeft,  // Define the gradient's start and end points
+          end: Alignment.topRight,
+          colors: [Color.fromARGB(255, 75, 93, 135), Color.fromARGB(255, 131, 137, 199)], // Define the colors for the gradient
+        ),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Padding(
