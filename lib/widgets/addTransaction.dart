@@ -1,15 +1,13 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:money_minder/styles.dart';
-
+import 'package:money_minder/utils/transactionModel.dart';
 class AddTransaction extends StatefulWidget {
-  // final TextEditingController amountController;
-  // final VoidCallback onAdd;
+  final TransactionModel transactionModel;
   final String currency;
-  final List transactionList;
-  final VoidCallback refreshItems;
-
-  const AddTransaction({super.key, required this.transactionList, required this.currency, required this.refreshItems,});
+  const AddTransaction({Key? key, required this.currency, required this.transactionModel}) : super(key: key);
 
   @override
   State<AddTransaction> createState() => _AddTransactionState();
@@ -18,6 +16,9 @@ class AddTransaction extends StatefulWidget {
 class _AddTransactionState extends State<AddTransaction> {
   List<String> _item = [
     "Food", "Transport", "Education", "Shopping", "Entertainment", "Grocery", "Medical", "Rental", "Bill", "Loan", "Salary", "Bonus", "Gift", "Prize", "Refund", "Sell",
+  ];
+  List<IconData> _icon = [
+    MdiIcons.foodForkDrink, MdiIcons.car, Icons.book_outlined, Icons.shopping_bag_outlined, Icons.movie_creation_outlined, MdiIcons.bottleWine, Icons.health_and_safety_outlined, Icons.money_rounded, Icons.feed_outlined, Icons.money, CupertinoIcons.envelope, Icons.card_membership, Icons.card_giftcard_rounded, MdiIcons.trophy, Icons.get_app, Icons.sell_outlined 
   ];
   bool isExpense = true;
 
@@ -42,7 +43,8 @@ class _AddTransactionState extends State<AddTransaction> {
   }
 
   DateTime date = DateTime.now();
-  String? selectedItem;
+  String? selectedItem ;
+  IconData? selectedIcon ;
 
   final TextEditingController amountController = TextEditingController();
   FocusNode amnt = FocusNode();
@@ -64,16 +66,15 @@ class _AddTransactionState extends State<AddTransaction> {
               dateTime(context),
               GestureDetector(
                 onTap: () {
-                  // final add = AddData(selectedItem!, amount.text, date, isExpense!);
-                  // box.add(add);
-                  // print("ex:${isExpense}, ${amountController.text}, ${selectedItem}, ${widget.currency}, ${date}");
-                  widget.transactionList.add([Icons.car_repair_outlined, "MoneyBag", isExpense, amountController.text, selectedItem, widget.currency, date]);
-                  print("addTransaction page: ${widget.transactionList.length}\n" );
-                  for (var i = 0; i < widget.transactionList.length; i++) {
-                    print("${widget.transactionList[i][0]}, ${widget.transactionList[i][1]}, ${widget.transactionList[i][2]}, ${widget.transactionList[i][3]}, ${widget.transactionList[i][4]}, ${widget.transactionList[i][5]}, ${widget.transactionList[i][6]}\n");
-                  }
-                  print("\n");
-                  widget.refreshItems();
+                  widget.transactionModel.addTransaction([
+                    selectedIcon,
+                    "MoneyBag",
+                    isExpense,
+                    amountController.text,
+                    selectedItem,
+                    widget.currency,
+                    "${date.day}/${date.month}/${date.year}"
+                  ]);
                   amountController.clear();
                   Navigator.of(context).pop();
                 },
@@ -153,31 +154,28 @@ class _AddTransactionState extends State<AddTransaction> {
           items: _item
               .map((e) => DropdownMenuItem(
                     child: Container(
-                      child: Row(children:[
-                        // Container(
-                        //   margin: EdgeInsets.all(8),
-                        //   width: 50,
-                        // ),
-                        // SizedBox(width: 10,),
-                        Text("${e}", style: TextStyle(fontSize: 20),),
-                      ]),
+                      child: Row(
+                        children: [
+                          Icon(_icon[_item.indexOf(e)], size: 20), // Add the corresponding icon
+                          SizedBox(width: 10), // Add spacing between the icon and text
+                          Text("${e}", style: TextStyle(fontSize: 20)),
+                        ],
+                      ),
                     ),
                     value: e,
                   ))
               .toList(),
           selectedItemBuilder: ((BuildContext context) => _item.map((e) => Row(
             children: [
-              // Container(
-              //   margin: EdgeInsets.all(10),
-              //   width: 50,
-              // ),
-              // SizedBox(width: 10,),
-              Text("${e}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+              Icon(_icon[_item.indexOf(e)], size: 20), // Add the corresponding icon
+              SizedBox(width: 10), // Add spacing between the icon and text
+              Text("${e}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ],
           )).toList()),
           onChanged: (value) {
             setState(() {
               selectedItem = value!;
+              selectedIcon = _icon[_item.indexOf(value)];
             });
           },
           hint: Text(

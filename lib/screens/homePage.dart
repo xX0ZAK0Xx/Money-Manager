@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:money_minder/styles.dart';
+import 'package:money_minder/utils/transactionModel.dart';
 import 'package:money_minder/widgets/addTransaction.dart';
 import 'package:money_minder/widgets/ammountCard.dart';
 import 'package:money_minder/widgets/transactionCard.dart';
+import 'package:provider/provider.dart';
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
@@ -27,31 +29,17 @@ class _HomePageState extends State<HomePage> {
     String earningAmount = '3000';
     String expenseAmount = '1250';
 
-    // final TextEditingController amountController = TextEditingController();
-    List transactionList = [
-      [Icons.car_repair_outlined, "Moneybag", true, "450", "Transport", currency, "19/09/23"],
-      // [MdiIcons.foodForkDrink, "Bkash", true, "600", "Food & Drink", currency, "15/09/23"],
-      // [MdiIcons.currencyBdt, "Moneybag", true, "450", "Salay", currency,"21/09/23"],
-    ];
+    final transactionModel = Provider.of<TransactionModel>(context);
+    List transactionList = transactionModel.transactionList;    
 
-    void refresh(){
-      setState(() {
-        
-        print("homepage: ${transactionList.length}\n");
-        for (var i = 0; i < transactionList.length; i++) {
-              print("${transactionList[i][0]}, ${transactionList[i][1]}, ${transactionList[i][2]}, ${transactionList[i][3]}, ${transactionList[i][4]}, ${transactionList[i][5]}, ${transactionList[i][6]}\n");
-            }
-        print("\n");
+    void createNewTransaction() {
+      showDialog(context: context, builder: (context) {
+        return AddTransaction(
+          transactionModel: transactionModel, // Pass the model to AddTransaction
+          currency: currency,
+        );
       });
     }
-    
-
-    void createNewTransaction(){
-      showDialog(context: context, builder: (context){
-         return AddTransaction(transactionList: transactionList, currency: currency, refreshItems: refresh,);
-      },);
-    }
-
     // Check if profileData is not null and is of the expected type
     if (profileData != null) {
       return Scaffold(
@@ -98,16 +86,26 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.all(12),
                     child: ListView.builder(
                       itemBuilder: (BuildContext context, int index) { 
-                        return TransactionCard(icon: transactionList[index][0], account: transactionList[index][1], isExpense: transactionList[index][2], amount: transactionList[index][3], field: transactionList[index][4], currency: transactionList[index][5], date: transactionList[index][6],);
+                        final reversedIndex = transactionList.length - 1 - index;
+                        return TransactionCard(
+                          icon: transactionList[reversedIndex][0],
+                          account: transactionList[reversedIndex][1],
+                          isExpense: transactionList[reversedIndex][2],
+                          amount: transactionList[reversedIndex][3],
+                          field: transactionList[reversedIndex][4],
+                          currency: transactionList[reversedIndex][5],
+                          date: transactionList[reversedIndex][6],
+                        );
                       },
                       itemCount: transactionList.length,
                     ),
                   ),
                 ),
               )
+
             ],
           ),
         ),

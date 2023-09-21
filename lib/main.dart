@@ -6,6 +6,8 @@ import 'package:money_minder/screens/account/signup.dart';
 import 'package:money_minder/screens/bottomNavigation.dart';
 import 'package:money_minder/screens/homePage.dart';
 import 'package:money_minder/screens/starterPage.dart';
+import 'package:money_minder/utils/transactionModel.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   GoogleFonts.config.allowRuntimeFetching = true;
@@ -22,20 +24,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(color: Colors.white),
-        fontFamily: GoogleFonts.mulish().fontFamily,
+    return ChangeNotifierProvider(
+      create: (context) => TransactionModel(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(color: Colors.white),
+          fontFamily: GoogleFonts.mulish().fontFamily,
+        ),
+        initialRoute: '/starterPage',
+        routes: {
+          '/starterPage' : (context) => StarterPage(isLoggedIn: created,),
+          '/bottombar' : (context) => BottomBar(),
+          '/login' : (context) => Login(),
+          '/signup' :(context) => SignUp(),
+          '/home' :(context) => HomePage(),
+        },
       ),
-      initialRoute: '/starterPage',
-      routes: {
-        '/starterPage' : (context) => StarterPage(isLoggedIn: created,),
-        '/bottombar' : (context) => BottomBar(),
-        '/login' : (context) => Login(),
-        '/signup' :(context) => SignUp(),
-        '/home' :(context) => HomePage(),
-      },
     );
   }
 }

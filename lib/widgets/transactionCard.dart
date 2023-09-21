@@ -3,14 +3,14 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:money_minder/styles.dart';
 
 class TransactionCard extends StatelessWidget {
-  const TransactionCard({super.key, required this.icon, required this.account, required this.isExpense, required this.amount, required this.field, required this.currency, required this.date});
+  TransactionCard({super.key, required this.icon, required this.account, required this.isExpense, required this.amount, required this.field, required this.currency, required this.date});
   final IconData icon;
-  final String field;
-  final String account;
+   String field=" ";
+   String account=" ";
   final bool isExpense;
-  final String amount;
-  final String currency;
-  final String date;
+   String amount="";
+   String currency="";
+   String date="";
 
   @override
   Widget build(BuildContext context) {
