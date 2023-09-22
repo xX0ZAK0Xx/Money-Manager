@@ -96,11 +96,11 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (BuildContext context, int index) { 
                         final reversedIndex = transactionList.length - 1 - index;
                         return TransactionCard(
-                          icon: transactionList[reversedIndex][0],
+                          icon: transactionList[reversedIndex][0] ?? Icons.attach_money_rounded,
                           account: transactionList[reversedIndex][1],
                           isExpense: transactionList[reversedIndex][2],
                           amount: transactionList[reversedIndex][3],
-                          field: transactionList[reversedIndex][4],
+                          field: transactionList[reversedIndex][4] ??" ",
                           currency: transactionList[reversedIndex][5],
                           date: transactionList[reversedIndex][6], 
                           deleteTransaction: (context) =>  transactionModel.removeTransaction(reversedIndex),
