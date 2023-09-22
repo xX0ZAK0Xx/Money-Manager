@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:money_minder/styles.dart';
 
 class Credentials extends StatefulWidget {
   const Credentials({Key? key}) : super(key: key);
@@ -55,7 +56,7 @@ class _CredentialsState extends State<Credentials> {
                   height: 50,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.blue,
+                    color: secondary,
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Center(child: Text("GET STARTED", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 25),)),
@@ -89,12 +90,18 @@ class _InputBoxState extends State<InputBox> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black), // Text color
       controller: widget.controller,
       decoration: InputDecoration(
         labelText: widget.text,
+        labelStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
         border: UnderlineInputBorder(),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.black54),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+        ),
       ),
-      style: TextStyle(fontSize: 22),
+      cursorColor: Colors.black, 
     );
   }
 }
