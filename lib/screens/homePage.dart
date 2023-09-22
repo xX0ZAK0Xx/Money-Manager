@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(12),
-                    child: ListView.builder(
+                    child: ListView.separated(
                       itemBuilder: (BuildContext context, int index) { 
                         final reversedIndex = transactionList.length - 1 - index;
                         return TransactionCard(
@@ -106,7 +106,9 @@ class _HomePageState extends State<HomePage> {
                           deleteTransaction: (context) =>  transactionModel.removeTransaction(reversedIndex),
                         );
                       },
-                      itemCount: transactionList.length,
+                      itemCount: transactionList.length, separatorBuilder: (BuildContext context, int index) { 
+                        return SizedBox(height: 10,);
+                       },
                     ),
                   ),
                 ),

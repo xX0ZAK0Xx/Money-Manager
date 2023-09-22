@@ -21,10 +21,11 @@ class TransactionCard extends StatelessWidget {
         onPressed: deleteTransaction,
         icon: Icons.delete_outline_outlined,
         backgroundColor: primary,
+        autoClose: true,
         borderRadius: BorderRadius.circular(15),
       )]),
       child: Container(
-        margin: EdgeInsets.only(bottom: 15),
+        // margin: EdgeInsets.only(bottom: 15),
         padding: EdgeInsets.all(15),
         height: 120,
         width: double.infinity,
