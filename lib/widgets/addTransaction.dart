@@ -18,7 +18,7 @@ class _AddTransactionState extends State<AddTransaction> {
     "Food", "Transport", "Education", "Shopping", "Entertainment", "Grocery", "Medical", "Rental", "Bill", "Loan", "Salary", "Bonus", "Gift", "Prize", "Refund", "Sell",
   ];
   List<IconData> _icon = [
-    MdiIcons.foodForkDrink, MdiIcons.car, Icons.book_outlined, Icons.shopping_bag_outlined, Icons.movie_creation_outlined, MdiIcons.bottleWine, Icons.health_and_safety_outlined, Icons.money_rounded, Icons.feed_outlined, Icons.money, CupertinoIcons.envelope, Icons.card_membership, Icons.card_giftcard_rounded, MdiIcons.trophy, Icons.get_app, Icons.sell_outlined 
+Icons.lunch_dining , Icons.car_repair_outlined, Icons.book_outlined, Icons.shopping_bag_outlined, Icons.movie_creation_outlined, Icons.egg, Icons.health_and_safety_outlined, Icons.money_rounded, Icons.feed_outlined, Icons.money, Icons.monetization_on, Icons.card_membership, Icons.shopping_bag_outlined, Icons.wallet_giftcard_outlined, Icons.get_app, Icons.sell_outlined 
   ];
   bool isExpense = true;
 
@@ -66,8 +66,10 @@ class _AddTransactionState extends State<AddTransaction> {
               dateTime(context),
               GestureDetector(
                 onTap: () {
+                  print("addPage: ${selectedIcon.toString()}\n");
                   widget.transactionModel.addTransaction([
                     selectedIcon,
+                    // selectedIcon.toString(),
                     "MoneyBag",
                     isExpense,
                     amountController.text,

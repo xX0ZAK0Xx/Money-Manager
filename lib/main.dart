@@ -6,6 +6,7 @@ import 'package:money_minder/screens/account/signup.dart';
 import 'package:money_minder/screens/bottomNavigation.dart';
 import 'package:money_minder/screens/homePage.dart';
 import 'package:money_minder/screens/starterPage.dart';
+import 'package:money_minder/utils/iconDataAdapter.dart';
 import 'package:money_minder/utils/transactionModel.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +14,9 @@ void main() async {
   GoogleFonts.config.allowRuntimeFetching = true;
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  Hive.registerAdapter(IconDataAdapter());
   final profileBox = await Hive.openBox("profile");
+  await Hive.openBox('transactions');
   final hasProfile = profileBox.isNotEmpty; // Check if a profile exists
   runApp(MyApp(created: hasProfile));
 }
