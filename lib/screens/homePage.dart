@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -26,8 +25,8 @@ class _HomePageState extends State<HomePage> {
     String currency = profileData["currency"] ?? "";
 
     //TODO: collect this information from the database
-    String earningAmount = '3000';
-    String expenseAmount = '1250';
+    var earningAmount = profileData["earning"];
+    var expenseAmount = profileData["expense"];
 
     final transactionModel = Provider.of<TransactionModel>(context);
     List transactionList = transactionModel.transactionList;    
@@ -56,18 +55,40 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 15,),
-                    Text(
-                      "Hello",
-                      style: TextStyle(fontSize: 25),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 15,),
+                            Text(
+                              "Hello",
+                              style: TextStyle(fontSize: 25),
+                            ),
+                            Text(
+                              "${userName}",
+                              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 20,),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text("Cashflow", style: TextStyle(color: accent, fontWeight: FontWeight.bold, fontSize: 18),),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text((earningAmount-expenseAmount).toString(), style: TextStyle(color: secondary, fontWeight: FontWeight.bold, fontSize: 32)),
+                                Text(" ${currency}")
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
                     ),
-                    Text(
-                      "${userName}",
-                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 20,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
