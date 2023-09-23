@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:money_minder/barGraph/graph.dart';
 import 'package:money_minder/styles.dart';
 import 'package:money_minder/utils/transactionModel.dart';
 import 'package:money_minder/widgets/addTransaction.dart';
@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
     var expenseAmount = profileData["expense"];
 
     final transactionModel = Provider.of<TransactionModel>(context);
-    List transactionList = transactionModel.transactionList;    
+    List<List<dynamic>> transactionList = transactionModel.transactionList;    
 
     void createNewTransaction() {
       showDialog(context: context, builder: (context) {
@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               //top portion : summary of the earings and expenses
               Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.only(top: 12.0, right: 12, left: 12,),
                 child: Column(
                   children: [
                     Row(
@@ -96,6 +96,8 @@ class _HomePageState extends State<HomePage> {
                         AmountCard(currency: currency, title: 'Expense', icon: Icons.arrow_upward_rounded, amount: expenseAmount,),
                       ],
                     ),
+                    SizedBox(height: 15,),
+                    WeeklyExpensesChart(transactions: transactionList,),
                   ],
                 ),
               ),
@@ -116,6 +118,7 @@ class _HomePageState extends State<HomePage> {
                     child: ListView.separated(
                       itemBuilder: (BuildContext context, int index) { 
                         final reversedIndex = transactionList.length - 1 - index;
+                        DateTime date = transactionList[reversedIndex][6];
                         return TransactionCard(
                           icon: transactionList[reversedIndex][0] ?? Icons.attach_money_rounded,
                           account: transactionList[reversedIndex][1],
@@ -123,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                           amount: transactionList[reversedIndex][3],
                           field: transactionList[reversedIndex][4] ??" ",
                           currency: transactionList[reversedIndex][5],
-                          date: transactionList[reversedIndex][6], 
+                          date: "${date.day}/${date.month}/${date.year}",
                           deleteTransaction: (context) =>  transactionModel.removeTransaction(reversedIndex),
                         );
                       },
@@ -134,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               )
-
+      
             ],
           ),
         ),

@@ -45,6 +45,8 @@ dependencies:
   flutter_slidable: ^3.0.0
   path_provider: ^2.1.1
   dropdown_button2: ^2.3.9
+  fl_chart: ^0.63.0
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

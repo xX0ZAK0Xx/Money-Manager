@@ -105,7 +105,7 @@ class _AddTransactionState extends State<AddTransaction> {
                     amountController.text,
                     selectedItem,
                     widget.currency,
-                    "${date.day}/${date.month}/${date.year}"
+                    date,
                   ]);
                   amountController.clear();
                   Navigator.of(context).pop();

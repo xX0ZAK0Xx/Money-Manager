@@ -4,18 +4,21 @@ import 'package:hive/hive.dart';
 class TransactionModel extends ChangeNotifier {
   late Box _transactionBox;
   late Box _profileBox; // Add a reference to the profile box
+  List<List<dynamic>> transactions = []; // Add the transactions list
 
   TransactionModel() {
     _transactionBox = Hive.box('transactions');
     _profileBox = Hive.box('profile'); // Initialize the profile box
+    transactions = _transactionBox.values.toList().cast<List<dynamic>>();
   }
 
   List<List<dynamic>> get transactionList {
-    return _transactionBox.values.toList().cast<List<dynamic>>();
+    return transactions;
   }
 
   void addTransaction(List<dynamic> transaction) {
     _transactionBox.add(transaction);
+    transactions.add(transaction); // Add the transaction to the list
 
     // Update the earning or expense in the user profile based on the boolean value
     var profileData = _profileBox.get("profile_key");
@@ -43,7 +46,7 @@ class TransactionModel extends ChangeNotifier {
 
   void removeTransaction(int index) {
     // Get the transaction being removed
-    var removedTransaction = _transactionBox.getAt(index);
+    var removedTransaction = transactions[index];
     if (removedTransaction != null) {
       // Update the earning or expense in the user profile based on the boolean value
       var profileData = _profileBox.get("profile_key");
@@ -67,6 +70,8 @@ class TransactionModel extends ChangeNotifier {
       }
     }
 
+    // Remove the transaction from the transactions list
+    transactions.removeAt(index);
     // Remove the transaction from the transactions box
     _transactionBox.deleteAt(index);
 
