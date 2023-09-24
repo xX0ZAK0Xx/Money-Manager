@@ -30,9 +30,10 @@ class _WeeklyExpensesChartState extends State<WeeklyExpensesChart> {
     // Initialize your data here based on your transaction model
     // For each day of the week, calculate the total expenses
     // You can modify this code to fit your data structure
+    final DateTime now = DateTime.now();
+    final DateTime lastWeek = now.subtract(Duration(days: 7));
+
     final List<double> weeklyExpenses = List.generate(7, (day) {
-      final DateTime now = DateTime.now();
-      final DateTime lastWeek = now.subtract(Duration(days: 7));
       final DateTime currentDay = lastWeek.add(Duration(days: day));
       final double totalExpense = widget.transactions
           .where((transaction) =>
@@ -44,9 +45,22 @@ class _WeeklyExpensesChartState extends State<WeeklyExpensesChart> {
           .fold(0, (a, b) => a + b);
       return totalExpense;
     });
+    final List<double> weeklyEarnings = List.generate(7, (day) {
+      final DateTime currentDay = lastWeek.add(Duration(days: day));
+      final double totalEarning = widget.transactions
+          .where((transaction) =>
+              transaction[2] == false &&
+              transaction[6].isAfter(currentDay) &&
+              transaction[6].isBefore(currentDay.add(Duration(days: 1))))
+          .map((transaction) =>
+              double.tryParse(transaction[3].toString()) ?? 0.0)
+          .fold(0, (a, b) => a + b);
+      return totalEarning;
+    });
 
     double maxExpense = weeklyExpenses.reduce((a, b) => a > b ? a : b);
-    maxY = maxExpense;
+    double maxEarning = weeklyEarnings.reduce((a, b) => a > b ? a : b);
+    maxY = maxExpense > maxEarning ? maxExpense : maxEarning;
 
     // for(var ex in weeklyExpenses){
     //   print(ex);
@@ -54,18 +68,23 @@ class _WeeklyExpensesChartState extends State<WeeklyExpensesChart> {
 
     // Create BarChartGroupData for each day
     barGroups = List.generate(7, (day) {
-      return makeGroupData(day, weeklyExpenses[day]);
+      return makeGroupData(day, weeklyExpenses[day], weeklyEarnings[day]);
     });
   }
 
-  BarChartGroupData makeGroupData(int day, double totalExpense) {
+  BarChartGroupData makeGroupData(int day, double totalExpense, double totalEarning){
     return BarChartGroupData(
       x: day,
       barRods: [
         BarChartRodData(
           color: Color.fromARGB(255, 228, 175, 172), // Set your desired bar color here
-          width: 16,
+          width: 10,
           toY: totalExpense,
+        ),
+        BarChartRodData(
+          color: Color.fromARGB(255, 183, 228, 172), // Set your desired bar color here
+          width: 10,
+          toY: totalEarning,
         ),
       ],
     );

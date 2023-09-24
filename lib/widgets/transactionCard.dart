@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:money_minder/styles.dart';
+import 'package:provider/provider.dart';
 
 class TransactionCard extends StatelessWidget {
   TransactionCard({super.key, required this.icon, required this.account, required this.isExpense, required this.amount, required this.field, required this.currency, required this.date, required this.deleteTransaction});
@@ -20,7 +21,7 @@ class TransactionCard extends StatelessWidget {
       endActionPane: ActionPane(motion: StretchMotion(), children: [SlidableAction(
         onPressed: deleteTransaction,
         icon: Icons.delete_outline_outlined,
-        backgroundColor: primary,
+        backgroundColor: Color.fromARGB(255, 255, 217, 215),
         autoClose: true,
         borderRadius: BorderRadius.circular(15),
       )]),
