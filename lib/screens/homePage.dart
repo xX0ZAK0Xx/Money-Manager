@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
     //TODO: collect this information from the database
     var earningAmount = profileData["earning"];
     var expenseAmount = profileData["expense"];
+    var cashFlow = earningAmount-expenseAmount;
 
     final transactionModel = Provider.of<TransactionModel>(context);
     List<List<dynamic>> transactionList = transactionModel.transactionList;    
@@ -39,11 +40,7 @@ class _HomePageState extends State<HomePage> {
         );
       });
     }
-    // void deleteTransaction(int index) {
-    //   setState(() {
-        
-    //   });
-    // }
+
     // Check if profileData is not null and is of the expected type
     if (profileData != null) {
       return Scaffold(
@@ -77,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text("Cashflow", style: TextStyle(color: accent, fontWeight: FontWeight.bold, fontSize: 18),),
+                            Text("Cashflow", style: TextStyle(color: cashFlow>=0? accent : Colors.red, fontWeight: FontWeight.bold, fontSize: 18),),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
@@ -107,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                   height: 200, // Adjust the height as needed
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: primary,
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
                     boxShadow: [
                       BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 8, blurRadius: 20, offset: Offset(0, 3),),

@@ -30,11 +30,10 @@ class TransactionCard extends StatelessWidget {
         height: 120,
         width: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomLeft,  // Define the gradient's start and end points
-            end: Alignment.topRight,
-            colors: [secondary, Color.fromARGB(255, 88, 88, 88)], // Define the colors for the gradient
-          ),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 1, blurRadius: 2, offset: Offset(0, 3),),
+          ],
           borderRadius: BorderRadius.circular(15),
         ),
         child: Row(
@@ -50,12 +49,12 @@ class TransactionCard extends StatelessWidget {
                   children: [
                     Container(
                       padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: primary),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: isExpense? Color.fromARGB(255, 255, 213, 210) : Color.fromARGB(255, 201, 255, 203)),
                       child: Icon(isExpense? MdiIcons.arrowUp: MdiIcons.arrowDown)
                     ),
                     SizedBox(width: 20,),
-                    Text("${amount} ", style: TextStyle(color: primary, fontSize: 25),),
-                    Text("${currency}", style: TextStyle(color: primary, fontSize: 20),)
+                    Text("${amount} ", style: TextStyle(color: secondary, fontSize: 25),),
+                    Text("${currency}", style: TextStyle(color: secondary, fontSize: 20),)
                   ],
                 )
               ],
@@ -66,7 +65,7 @@ class TransactionCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CardHeader(icon: Icons.account_balance_wallet_outlined, text: account, isAccount: true),
-                Text(date, style: TextStyle(color: primary, fontSize: 20),)
+                Text(date, style: TextStyle(color: secondary, fontSize: 20),)
               ],
             ),
           ],
@@ -91,6 +90,7 @@ class CardHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.center,
       height: 35,
       width: 150,
       decoration: BoxDecoration(
@@ -101,14 +101,17 @@ class CardHeader extends StatelessWidget {
         ): LinearGradient(
           begin: Alignment.bottomLeft,  // Define the gradient's start and end points
           end: Alignment.topRight,
-          colors: [Color.fromARGB(255, 75, 93, 135), Color.fromARGB(255, 131, 137, 199)], // Define the colors for the gradient
+          colors: [Color.fromARGB(255, 180, 202, 255), Color.fromARGB(255, 131, 137, 199)], // Define the colors for the gradient
         ),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Icon(icon , color: isAccount? primary : secondary), Text(text, style: TextStyle(fontWeight: FontWeight.w700, color: isAccount? primary : secondary),)],
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(icon , color: const Color.fromARGB(255, 86, 86, 86) ),
+            Container(width: 1, height: double.infinity, color: Colors.black,),
+            Text(text, style: TextStyle(fontWeight: FontWeight.w700, color: isAccount? primary : secondary),)],
         ),
       ),
     );
