@@ -25,7 +25,7 @@ class AmountCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       width: 175,
-      height: 100,
+      height: 80,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -34,11 +34,18 @@ class AmountCard extends StatelessWidget {
             children: [
               Icon(icon, color: accent,),
               SizedBox(width: 5,),
-              Text(title, style: TextStyle(color: primary, fontSize: 20),),
+              Text(title, style: TextStyle(color: primary, fontSize: 18),),
               SizedBox(width: 5,),
             ],
           ),
-          Text("${amount} ${currency}", style: TextStyle(color: primary, fontSize: 25, fontWeight: FontWeight.bold),),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text("${amount}", style: TextStyle(color: primary, fontSize: 22, fontWeight: FontWeight.bold),),
+              Text(" ${currency}", style: TextStyle(color: primary, fontSize: 14),),
+            ],
+          ),
         ],
       ),
     );

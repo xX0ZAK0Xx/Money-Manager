@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_minder/barGraph/graph.dart';
+import 'package:money_minder/barGraph/graphMonth.dart';
 import 'package:money_minder/styles.dart';
 import 'package:money_minder/utils/transactionModel.dart';
 import 'package:money_minder/widgets/addTransaction.dart';
@@ -68,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                               "${userName}",
                               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(height: 20,),
+                            SizedBox(height: 10,),
                           ],
                         ),
                         Column(
@@ -78,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text((earningAmount-expenseAmount).toString(), style: TextStyle(color: secondary, fontWeight: FontWeight.bold, fontSize: 32)),
+                                Text((earningAmount-expenseAmount).toString(), style: TextStyle(color: secondary, fontWeight: FontWeight.bold, fontSize: 35)),
                                 Text(" ${currency}")
                               ],
                             ),
@@ -86,18 +87,25 @@ class _HomePageState extends State<HomePage> {
                         )
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AmountCard(currency: currency, title: 'Earning', icon: Icons.arrow_downward_rounded, amount: earningAmount,),
-                        AmountCard(currency: currency, title: 'Expense', icon: Icons.arrow_upward_rounded, amount: expenseAmount,),
+                        Text("This month", style: TextStyle(fontWeight: FontWeight.bold),),
+                        SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AmountCard(currency: currency, title: 'Earning', icon: Icons.arrow_downward_rounded, amount: earningAmount,),
+                            AmountCard(currency: currency, title: 'Expense', icon: Icons.arrow_upward_rounded, amount: expenseAmount,),
+                          ],
+                        ),
                       ],
                     ),
                     SizedBox(height: 15,),
-                    WeeklyExpensesChart(transactions: transactionList,),
                   ],
                 ),
               ),
+              Graph(transactionList: transactionList),
               SizedBox(height: 10,),
               Expanded(
                 child: Container(
@@ -134,7 +142,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               )
-      
             ],
           ),
         ),
@@ -155,5 +162,85 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }
+  }
+}
+
+class Graph extends StatefulWidget {
+  Graph({
+    Key? key,
+    required this.transactionList,
+  }) : super(key: key);
+
+  final List<List> transactionList;
+
+  @override
+  _GraphState createState() => _GraphState();
+}
+
+class _GraphState extends State<Graph> {
+  int selectedGraph = 1; // 0 = weekly, 1 = monthly
+
+  void switchToWeeklyGraph() {
+    setState(() {
+      selectedGraph = 0;
+    });
+  }
+
+  void switchToMonthlyGraph() {
+    setState(() {
+      selectedGraph = 1;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          selectedGraph == 0
+              ? WeeklyExpensesChart(transactions: widget.transactionList)
+              : MonthlyExpensesChart(transactions: widget.transactionList),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: switchToWeeklyGraph,
+                child: Container(
+                  height: 25,
+                  width: 80,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(
+                      color: selectedGraph == 0 ? secondary : Colors.blueGrey,
+                    ),
+                    color: Colors.white,
+                  ),
+                  child: Text("Weekly"),
+                ),
+              ),
+              SizedBox(width: 10),
+              GestureDetector(
+                onTap: switchToMonthlyGraph,
+                child: Container(
+                  height: 25,
+                  width: 80,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(
+                      color: selectedGraph == 1 ? secondary : Colors.blueGrey,
+                    ),
+                    color: Colors.white,
+                  ),
+                  child: Text("Monthly"),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

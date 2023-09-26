@@ -74,15 +74,17 @@ class _AddTransactionState extends State<AddTransaction> {
               dateTime(context),
               GestureDetector(
                 onTap: () {
-                  widget.transactionModel.addTransaction([
-                    selectedIcon,
-                    "MoneyBag",
-                    isExpense,
-                    amountController.text,
-                    selectedItem,
-                    widget.currency,
-                    date,
-                  ]);
+                  if(amountController.text!='' && selectedIcon!=null && selectedItem!=null){
+                    widget.transactionModel.addTransaction([
+                      selectedIcon,
+                      "Wallet",
+                      isExpense,
+                      amountController.text,
+                      selectedItem,
+                      widget.currency,
+                      date,
+                    ]);
+                  }
                   amountController.clear();
                   Navigator.of(context).pop();
                 },
@@ -214,8 +216,8 @@ class _AddTransactionState extends State<AddTransaction> {
               });
             },
             hint: Text(
-              "Type",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              "Select earning or expense type ",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             underline: Container(),
             isExpanded: true,
