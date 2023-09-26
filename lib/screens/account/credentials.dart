@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_minder/styles.dart';
@@ -10,12 +11,24 @@ class Credentials extends StatefulWidget {
 }
 
 class _CredentialsState extends State<Credentials> {
+  List<String> currencies = [
+    "AED", "AFN", "ARS", "AUD", "BAM", "BDT", "BST", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BYR", "CAD", "CDF", "CHF", "COP", "CZK", "DKK", "DOP", "DZD", "EGP", "EUR", "FJD", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISJ", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KID", "KPW", "KRW", "KWD", "LBP", "LKR", "LRD", "LSL", "LYD", "MAD", "MDL", "MGA", "MKD", "MMK", "MNT", "MOP", "MRO", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PEN", "PGK", "PHP", "PKR", "PLN", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SRD", "SSP", "STD", "SYP", "SZL", "THB", "TJR", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TVD", "TWD", "TZS", "UAH", "UGX", "USD", "UYU", "UZS", "VED", "VND", "VUV", "WST", "XAF", "XCD", "XOF", "XPF", "YER", "ZAR", "ZMW", "ZWL"
+  ];
   TextEditingController _name = TextEditingController();
   TextEditingController _email = TextEditingController();
-  TextEditingController _currency = TextEditingController();
-
+  TextEditingController _curr = TextEditingController();
+  String currency = "BDT";
   final _profile = Hive.box("profile");
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _curr.dispose();
+    _name.dispose();
+    _email.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +65,7 @@ class _CredentialsState extends State<Credentials> {
                         },
                       ),
                       SizedBox(height: 8),
-                      InputBox(controller: _currency, text: "Currency",
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Currency is required';
-                          }
-                          return null;
-                        },
-                      ),
+                      currencySelector(),
                     ],
                   ),
                 ),
@@ -71,7 +77,7 @@ class _CredentialsState extends State<Credentials> {
                       final newProfile = {
                         "name": _name.text,
                         "email": _email.text,
-                        "currency": _currency.text,
+                        "currency": currency,
                         "earning": 0.0,
                         "expense": 0.0,
                       };
@@ -97,6 +103,114 @@ class _CredentialsState extends State<Credentials> {
       ),
     );
   }
+Container currencySelector() {
+  return Container(
+    padding: EdgeInsets.only(top: 10, bottom: 6),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(30),
+      color: secondary,
+    ),
+    alignment: Alignment.center,
+    child: DropdownButtonHideUnderline(
+      child: DropdownButton2<String>(
+        value: currency,
+        items: currencies
+            .map((e) => DropdownMenuItem(
+                  child: Container(
+                    child: Text("${e}", style: TextStyle(fontSize: 20)),
+                  ),
+                  value: e,
+                ))
+            .toList(),
+        selectedItemBuilder: ((BuildContext context) => currencies
+            .map((e) => Text("${e}",
+                style: TextStyle(
+                    fontSize: 25, fontWeight: FontWeight.bold, color: primary),))
+            .toList()),
+        onChanged: (value) {
+          setState(() {
+            currency = value!;
+          });
+        },
+        underline: Container(),
+        isExpanded: true,
+        buttonStyleData: const ButtonStyleData(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          height: 40,
+          width: 200,
+        ),
+        dropdownSearchData: DropdownSearchData(
+          searchController: _curr,
+          searchInnerWidgetHeight: 80,
+          searchInnerWidget: Container(
+            height: 50,
+            padding: const EdgeInsets.only(
+              top: 8,
+              bottom: 4,
+              right: 8,
+              left: 8,
+            ),
+            child: TextFormField(
+              cursorColor: secondary,
+              expands: true,
+              textCapitalization: TextCapitalization.characters, // Capitalize input
+              enableSuggestions: true,
+              maxLines: null,
+              controller: _curr,
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 8,
+                ),
+                hintText: 'Search for your currency...',
+                hintStyle: const TextStyle(fontSize: 18, color: Colors.black),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+          ),
+          searchMatchFn: (item, searchValue) {
+            return item.value.toString().contains(searchValue);
+          },
+        ),
+        onMenuStateChange: (isOpen) {
+          if (!isOpen) {
+            _curr.clear();
+          }
+        },
+        iconStyleData: const IconStyleData(
+          icon: Icon(
+            Icons.arrow_downward_rounded,
+          ),
+          iconSize: 30,
+          iconEnabledColor: Colors.white,
+          iconDisabledColor: Colors.grey,
+        ),
+        dropdownStyleData: DropdownStyleData(
+          maxHeight: 200,
+          width: 315,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            color: Colors.white,
+          ),
+          offset: const Offset(-20, 0),
+          scrollbarTheme: ScrollbarThemeData(
+            radius: const Radius.circular(40),
+            thickness: MaterialStateProperty.all(6),
+            thumbVisibility: MaterialStateProperty.all(true),
+          ),
+        ),
+        menuItemStyleData: const MenuItemStyleData(
+          height: 40,
+          padding: EdgeInsets.only(left: 14, right: 14),
+        ),
+      ),
+    ),
+  );
+}
+
 }
 
 class InputBox extends StatefulWidget {

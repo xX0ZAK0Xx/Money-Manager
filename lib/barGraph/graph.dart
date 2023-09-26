@@ -14,11 +14,8 @@ class WeeklyExpensesChart extends StatefulWidget {
 class _WeeklyExpensesChartState extends State<WeeklyExpensesChart> {
   final double width = 7;
   late List<BarChartGroupData> barGroups;
-  late List<BarChartGroupData> showingBarGroups;
 
   double maxY=0;
-
-  int touchedGroupIndex = -1;
 
   @override
   void initState() {
@@ -77,14 +74,14 @@ class _WeeklyExpensesChartState extends State<WeeklyExpensesChart> {
       x: day,
       barRods: [
         BarChartRodData(
-          color: Color.fromARGB(255, 228, 175, 172), // Set your desired bar color here
-          width: 10,
-          toY: totalExpense,
-        ),
-        BarChartRodData(
           color: Color.fromARGB(255, 183, 228, 172), // Set your desired bar color here
           width: 10,
           toY: totalEarning,
+        ),
+        BarChartRodData(
+          color: Color.fromARGB(255, 228, 175, 172), // Set your desired bar color here
+          width: 10,
+          toY: totalExpense,
         ),
       ],
     );
@@ -113,30 +110,6 @@ class _WeeklyExpensesChartState extends State<WeeklyExpensesChart> {
           fontSize: 14,
         ),
       ),
-    );
-  }
-
-
-  Widget leftTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff7589a2),
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
-    String text;
-    if (value == 0) {
-      text = '1K';
-    } else if (value == 10) {
-      text = '5K';
-    } else if (value == 19) {
-      text = '10K';
-    } else {
-      return Container();
-    }
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 0,
-      child: Text(text, style: style),
     );
   }
 
@@ -173,17 +146,6 @@ class _WeeklyExpensesChartState extends State<WeeklyExpensesChart> {
               tooltipBgColor: Colors.grey,
               getTooltipItem: (a, b, c, d) => null,
             ),
-            touchCallback: (FlTouchEvent event, response) {
-              if (response == null || response.spot == null) {
-                setState(() {
-                  touchedGroupIndex = -1;
-                });
-                return;
-              }
-              setState(() {
-                touchedGroupIndex = response.spot!.touchedBarGroupIndex;
-              });
-            },
           ),
           maxY: maxY, // Adjust the maximum value as needed
         ),

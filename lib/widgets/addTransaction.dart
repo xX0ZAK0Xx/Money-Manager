@@ -16,41 +16,17 @@ class AddTransaction extends StatefulWidget {
 }
 
 class _AddTransactionState extends State<AddTransaction> {
-  List<String> _item = [
-    "Food",
-    "Transport",
-    "Education",
-    "Shopping",
-    "Entertainment",
-    "Grocery",
-    "Medical",
-    "Rental",
-    "Bill",
-    "Loan",
-    "Salary",
-    "Bonus",
-    "Gift",
-    "Prize",
-    "Refund",
-    "Sell",
+  List<String> _expenseItem = [
+    "Food", "Transport", "Education", "Shopping", "Entertainment", "Grocery", "Medical", "Rental", "Bill", "Loan",
   ];
-  List<IconData> _icon = [
-    Icons.lunch_dining,
-    Icons.car_repair_outlined,
-    Icons.book_outlined,
-    Icons.shopping_bag_outlined,
-    Icons.movie_creation_outlined,
-    Icons.egg,
-    Icons.health_and_safety_outlined,
-    Icons.money_rounded,
-    Icons.feed_outlined,
-    Icons.money,
-    Icons.monetization_on,
-    Icons.card_membership,
-    Icons.shopping_bag_outlined,
-    Icons.wallet_giftcard_outlined,
-    Icons.get_app,
-    Icons.sell_outlined
+  List<IconData> _expenseIcon = [ 
+    Icons.lunch_dining, Icons.car_repair_outlined, Icons.book_outlined, Icons.shopping_bag_outlined, Icons.movie_creation_outlined, Icons.egg, Icons.health_and_safety_outlined, Icons.money_rounded, Icons.feed_outlined, Icons.money,
+  ];
+  List<String> _earningItem = [
+    "Loan", "Salary", "Bonus","Gift", "Prize", "Refund", "Sell", 
+  ];
+  List<IconData> _earningIcon = [ 
+    Icons.money, Icons.monetization_on, Icons.card_membership, Icons.shopping_bag_outlined, Icons.wallet_giftcard_outlined, Icons.get_app, Icons.sell_outlined
   ];
   bool isExpense = true;
 
@@ -193,6 +169,9 @@ class _AddTransactionState extends State<AddTransaction> {
   }
 
   Container selector() {
+    List<String> items = isExpense ? _expenseItem : _earningItem;
+    List<IconData> icons = isExpense ? _expenseIcon : _earningIcon;
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -204,16 +183,13 @@ class _AddTransactionState extends State<AddTransaction> {
         child: DropdownButtonHideUnderline(
           child: DropdownButton2<String>(
             value: selectedItem,
-            items: _item
+            items: items
                 .map((e) => DropdownMenuItem(
                       child: Container(
                         child: Row(
                           children: [
-                            Icon(_icon[_item.indexOf(e)],
-                                size: 20), // Add the corresponding icon
-                            SizedBox(
-                                width:
-                                    10), // Add spacing between the icon and text
+                            Icon(icons[items.indexOf(e)], size: 20),
+                            SizedBox(width: 10),
                             Text("${e}", style: TextStyle(fontSize: 20)),
                           ],
                         ),
@@ -221,23 +197,20 @@ class _AddTransactionState extends State<AddTransaction> {
                       value: e,
                     ))
                 .toList(),
-            selectedItemBuilder: ((BuildContext context) => _item
+            selectedItemBuilder: ((BuildContext context) => items
                 .map((e) => Row(
                       children: [
-                        Icon(_icon[_item.indexOf(e)],
-                            size: 20), // Add the corresponding icon
-                        SizedBox(
-                            width: 10), // Add spacing between the icon and text
+                        Icon(icons[items.indexOf(e)], size: 20),
+                        SizedBox(width: 10),
                         Text("${e}",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold)),
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                       ],
                     ))
                 .toList()),
             onChanged: (value) {
               setState(() {
                 selectedItem = value!;
-                selectedIcon = _icon[_item.indexOf(value)];
+                selectedIcon = icons[items.indexOf(value)];
               });
             },
             hint: Text(
@@ -277,6 +250,7 @@ class _AddTransactionState extends State<AddTransaction> {
       ),
     );
   }
+
 
   Container dateTime(BuildContext context) {
     return Container(
