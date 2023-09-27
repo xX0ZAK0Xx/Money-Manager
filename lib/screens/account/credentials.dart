@@ -84,7 +84,7 @@ class _CredentialsState extends State<Credentials> {
                         "totalExpense": 0.0,
                       };
                       await _profile.put("profile_key", newProfile);
-                      Navigator.of(context).pushReplacementNamed('/home');
+                      Navigator.of(context).pushReplacementNamed('/bottombar');
                     }
                   },
                   child: Container(
