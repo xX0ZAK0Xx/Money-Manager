@@ -41,15 +41,19 @@ class _AddTransactionState extends State<AddTransaction> {
   void selectExpense() {
     setState(() {
       isExpense = true;
+      selectedItem = null; // Reset the selected item
+      selectedIcon = null; // Reset the selected icon
     });
   }
 
   void selectEarning() {
     setState(() {
       isExpense = false;
+      selectedItem = null; // Reset the selected item
+      selectedIcon = null; // Reset the selected icon
     });
   }
-
+  
   DateTime date = DateTime.now();
   String? selectedItem;
   IconData? selectedIcon;
@@ -303,7 +307,7 @@ class FrostedGlass extends StatelessWidget {
         child: Stack(
           children: [
             BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
               child: Container(),
             ),
             Container(
