@@ -64,7 +64,7 @@ class _CredentialsState extends State<Credentials> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 30),
                       currencySelector(),
                     ],
                   ),

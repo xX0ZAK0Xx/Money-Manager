@@ -18,7 +18,7 @@ class _StarterPageState extends State<StarterPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3)).then((value) => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=> widget.isLoggedIn ? HomePage() : Credentials())));
+    Future.delayed(Duration(seconds: 3)).then((value) => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=> widget.isLoggedIn ? BottomBar() : Credentials())));
   }
   @override
   Widget build(BuildContext context) {

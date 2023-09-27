@@ -32,17 +32,7 @@ class _HomePageState extends State<HomePage> {
     var cashFlow = earningAmount-expenseAmount;
 
     final transactionModel = Provider.of<TransactionModel>(context);
-    List<List<dynamic>> transactionList = transactionModel.transactionList;    
-
-    void createNewTransaction() {
-      showDialog(context: context, builder: (context) {
-        return AddTransaction(
-          transactionModel: transactionModel, // Pass the model to AddTransaction
-          currency: currency,
-        );
-      });
-    }
-
+    List<List<dynamic>> transactionList = transactionModel.transactionList;
     // Check if profileData is not null and is of the expected type
     if (profileData != null) {
       return Scaffold(
@@ -107,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Graph(transactionList: transactionList),
-              SizedBox(height: 10,),
+              SizedBox(height: 5,),
               Expanded(
                 child: Container(
                   height: 200, // Adjust the height as needed
@@ -116,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                     color: primary,
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
                     boxShadow: [
-                      BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 8, blurRadius: 20, offset: Offset(0, 3),),
+                      BoxShadow(color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.5), spreadRadius: 20, blurRadius: 20, offset: Offset(0, 1),),
                     ],
                   ),
                   child: Padding(
@@ -146,11 +136,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(onPressed: (){
-            createNewTransaction();
-          }, 
-          child: Icon(Icons.add, color: accent,), backgroundColor: secondary,
-        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       );
     } else {
       // Handle the case where profile data is not found or has unexpected types
