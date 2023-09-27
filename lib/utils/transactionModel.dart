@@ -22,24 +22,49 @@ class TransactionModel extends ChangeNotifier {
 
     // Update the earning or expense in the user profile based on the boolean value
     var profileData = _profileBox.get("profile_key");
-    if (profileData != null) {
-      var prevEarning = profileData["earning"];
-      var prevExpense = profileData["expense"];
-      var transactionAmount = double.tryParse(transaction[3] ?? '0') ?? 0.0;
+    // if (profileData != null) {
+    // }
+    final DateTime now = DateTime.now();
+    final int currentYear = now.year;
+    final int currentMonth = now.month;
+
+    final double monthlyExpense = transactions
+    .where((transaction) =>
+        transaction[2] == true &&
+        transaction[6].year == currentYear &&
+        transaction[6].month == currentMonth)
+    .map((transaction) =>
+        double.tryParse(transaction[3].toString()) ?? 0.0)
+    .fold(0, (a, b) => a + b);
+
+    final double monthlyEarning = transactions
+    .where((transaction) =>
+        transaction[2] == false &&
+        transaction[6].year == currentYear &&
+        transaction[6].month == currentMonth)
+    .map((transaction) =>
+        double.tryParse(transaction[3].toString()) ?? 0.0)
+    .fold(0, (a, b) => a + b);
+
       bool isExpense = transaction[2] == true;
+
+      var prevEarning = profileData["totalEarning"];
+      var prevExpense = profileData["totalExpense"];
+      var transactionAmount = double.tryParse(transaction[3] ?? '0') ?? 0.0;
 
       if (isExpense) {
         _profileBox.put("profile_key", {
           ...profileData,
-          "expense": prevExpense + transactionAmount,
+          "monthlyExpense": monthlyExpense,
+          "totalExpense": transactionAmount + prevExpense
         });
       } else {
         _profileBox.put("profile_key", {
           ...profileData,
-          "earning": prevEarning + transactionAmount,
+          "monthlyEarning": monthlyEarning,
+          "totalEarning": transactionAmount + prevEarning
         });
       }
-    }
 
     notifyListeners();
   }

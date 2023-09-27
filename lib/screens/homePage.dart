@@ -25,9 +25,10 @@ class _HomePageState extends State<HomePage> {
     String userName = profileData["name"] ?? "";
     String currency = profileData["currency"] ?? "";
 
-    //TODO: collect this information from the database
-    var earningAmount = profileData["earning"];
-    var expenseAmount = profileData["expense"];
+    var earningAmount = profileData["totalEarning"];
+    var expenseAmount = profileData["totalExpense"];
+    var monthlyEarning = profileData["monthlyEarning"];
+    var monthlyExpense= profileData["monthlyExpense"];
     var cashFlow = earningAmount-expenseAmount;
 
     final transactionModel = Provider.of<TransactionModel>(context);
@@ -51,7 +52,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               //top portion : summary of the earings and expenses
               Padding(
-                padding: const EdgeInsets.only(top: 12.0, right: 12, left: 12,),
+                padding: const EdgeInsets.only(top: 2.0, right: 12, left: 12,),
                 child: Column(
                   children: [
                     Row(
@@ -95,8 +96,8 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            AmountCard(currency: currency, title: 'Earning', icon: Icons.arrow_downward_rounded, amount: earningAmount,),
-                            AmountCard(currency: currency, title: 'Expense', icon: Icons.arrow_upward_rounded, amount: expenseAmount,),
+                            AmountCard(currency: currency, title: 'Earning', icon: Icons.arrow_downward_rounded, amount: monthlyEarning,),
+                            AmountCard(currency: currency, title: 'Expense', icon: Icons.arrow_upward_rounded, amount: monthlyExpense,),
                           ],
                         ),
                       ],
@@ -178,7 +179,7 @@ class Graph extends StatefulWidget {
 }
 
 class _GraphState extends State<Graph> {
-  int selectedGraph = 1; // 0 = weekly, 1 = monthly
+  int selectedGraph = 0; // 0 = weekly, 1 = monthly
 
   void switchToWeeklyGraph() {
     setState(() {
@@ -213,7 +214,7 @@ class _GraphState extends State<Graph> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(
-                      color: selectedGraph == 0 ? secondary : Colors.blueGrey,
+                      color: selectedGraph == 0 ? secondary : const Color.fromARGB(255, 194, 214, 223),
                     ),
                     color: Colors.white,
                   ),
@@ -230,7 +231,7 @@ class _GraphState extends State<Graph> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(
-                      color: selectedGraph == 1 ? secondary : Colors.blueGrey,
+                      color: selectedGraph == 1 ? secondary : const Color.fromARGB(255, 194, 214, 223),
                     ),
                     color: Colors.white,
                   ),

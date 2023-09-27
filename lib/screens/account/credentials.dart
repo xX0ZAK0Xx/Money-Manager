@@ -78,8 +78,10 @@ class _CredentialsState extends State<Credentials> {
                         "name": _name.text,
                         "email": _email.text,
                         "currency": currency,
-                        "earning": 0.0,
-                        "expense": 0.0,
+                        "monthlyEarning": 0.0,
+                        "monthlyExpense": 0.0,
+                        "totalEarning": 0.0,
+                        "totalExpense": 0.0,
                       };
                       await _profile.put("profile_key", newProfile);
                       Navigator.of(context).pushReplacementNamed('/home');
