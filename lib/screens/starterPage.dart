@@ -2,6 +2,7 @@ import 'package:animated_typing/animated_typing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:money_minder/screens/account/credentials.dart';
+import 'package:money_minder/screens/account/login.dart';
 import 'package:money_minder/screens/bottomNavigation.dart';
 import 'package:money_minder/screens/homePage.dart';
 import 'package:money_minder/styles.dart';
@@ -18,7 +19,7 @@ class _StarterPageState extends State<StarterPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3)).then((value) => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=> widget.isLoggedIn ? BottomBar() : Credentials())));
+    Future.delayed(Duration(seconds: 3)).then((value) => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=> widget.isLoggedIn ? BottomBar() : Login())));
   }
   @override
   Widget build(BuildContext context) {

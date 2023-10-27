@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "213799577641",
+    "project_id": "money-minder-c4d6a",
+    "storage_bucket": "money-minder-c4d6a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213799577641:android:e0bf1f14485c922229d438",
+        "android_client_info": {
+          "package_name": "com.example.money_minder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213799577641-9862ecp9hqf6jf8814njcdc0uovpskg1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.money_minder",
+            "certificate_hash": "d2fa8bd763e3c146db88437484450eb7566dc1fc"
+          }
+        },
+        {
+          "client_id": "213799577641-lq1p6oqbeerj9vle2f4bg1brmi37m3r2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWZJiIFRWTbgd2WmFYagQii-lcmJbI-wE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213799577641-lq1p6oqbeerj9vle2f4bg1brmi37m3r2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
